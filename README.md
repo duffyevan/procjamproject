@@ -4,6 +4,8 @@ Check out ProcJam [here](http://www.procjam.com/)
 
 [Here](https://imgur.com/isLEbxt) is a link to a GIF of the program working as of Thursday!
 
+![alt text](https://i.imgur.com/isLEbxt.gif "GIF Of It Working")
+
 ---
 
 This is a project I'm doing for my "AI For Games" class at WPI. Here's what I plan to do in the order I plan to do it
