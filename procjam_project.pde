@@ -67,7 +67,7 @@ void setup(){
 
 
 void draw(){
-	try{ // error handling so processing doesnt hang on me
+	try{ // error handling so processing doesn't hang on me
 		dStart = System.nanoTime(); // used for calculating FPS
 		
 		background(#B18C40); // clear the screen
@@ -85,23 +85,40 @@ void draw(){
 			c.y = mouseY;	
 
 			// update when clicking and dragging
-			mainVoronoi = calculateVoronoi(); // calculate to voronoi figure
+			mainVoronoi = calculateVoronoi(); // calculate to Voronoi figure
 			lines = getLines();
 		}
 		// image(overlay, 0, 0, width, height);
 		println("FPS: " + 1000000000/(System.nanoTime()-dStart)); // print the FPS	
 	}
 	catch (Exception e) {
-		e.printStackTrace(); // just quit if theres an unhandled error
+		e.printStackTrace(); // just quit if theres an unhanded error
 		exit();
 	}
 }
 
 
+/**
+ * @brief      Make A Random Coordinate
+ * This is useful because I don't have to do this over 
+ * and over and make the main loop messy
+ * @return     The newly created random coordinate
+ */
 Coordinate randomCoordinate(){
 	return new Coordinate((int)random(0, width),(int)random(0, height));
 }
 
+/**
+ * @brief      Calculates the bisecting line.
+ * I wrote this as a start to writing the Voronoi 
+ * part myself, but it was too much math and I ended 
+ * up using a library. Leaving this here in case 
+ * I decide to finish this myself later
+ * @param[in]  p1    The first point
+ * @param[in]  p2    The second point
+ *
+ * @return     The bisecting line.
+ */
 Line calculateVLine(Coordinate p1, Coordinate p2){
 	int A = p2.x; 
 	int B = p2.y;
@@ -111,11 +128,27 @@ Line calculateVLine(Coordinate p1, Coordinate p2){
 	return new Line(new Coordinate(0,(int)jacksonsEquation(A,B,C,D,0)),new Coordinate(width,(int)jacksonsEquation(A,B,C,D,width)));
 }
 
+
+/**
+ * @brief      Jackson (my roommate) helped me with the math for this part. It's the equation for the lines needed for the borders
+ *
+ * @param[in]  a,b,c,d     Coordinate parameters
+ * @param[in]  x           The x coordinate to solve for y
+ * 
+ * @return     the solved y value for a bisecting line
+ */
 float jacksonsEquation(int a, int b, int c, int d, int x){
-	return ((0.5*(a-c))/(0.5*(d-b))*(x-0.5*(c+a)) + .5*(d+b)); // jackson helped me with the math for this part. It's the equation for the lines needed for the borders
+	return ((0.5*(a-c))/(0.5*(d-b))*(x-0.5*(c+a)) + .5*(d+b)); // 
 }
 
 
+/**
+ * @brief      Find the closest landmark to a given location on the map
+ *
+ * @param[in]  location  The location to look from
+ *
+ * @return     The closest location
+ */
 Coordinate findClosestLandmark(Coordinate location){
 	Coordinate closest = null;
 	int closestDistance = Integer.MAX_VALUE; // really big number
@@ -132,9 +165,9 @@ Coordinate findClosestLandmark(Coordinate location){
 }
 
 /**
- * @brief      Calculates the voronoi figure from all the landmarks.
+ * @brief      Calculates the Voronoi figure from all the landmarks.
  *
- * @return     The voronoi.
+ * @return     The Voronoi.
  */
 Voronoi calculateVoronoi(){
 	float points[][] = new float [NUMBER_OF_LANDMARKS][2];
