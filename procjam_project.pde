@@ -1,7 +1,9 @@
 import megamu.mesh.*;
 
+PImage overlay;
+
 int RANDOM_SEED = 123456789;
-int NUMBER_OF_LANDMARKS = 100;
+int NUMBER_OF_LANDMARKS = 60;
 int POINT_DIAMETER = 10;
 
 long dStart = 0;
@@ -14,6 +16,8 @@ class Coordinate {
 		y = Y;
 	}
 	void draw(){
+		fill(#916C20);
+		noStroke();
 		ellipse(x, y,POINT_DIAMETER,POINT_DIAMETER);
 	}
 
@@ -34,6 +38,7 @@ class Line {
 		this.p2 = p2;
 	}
 	void draw(){
+		stroke(#6C3B14);
 		line(p1.x, p1.y, p2.x, p2.y);
 	}
 
@@ -49,7 +54,10 @@ Line lines[];
 
 void setup(){
 	// randomSeed(RANDOM_SEED);
-	size(1860, 1090);
+	
+	overlay = loadImage("./overlay.png");
+
+	size(512, 512);
 	for (int i = 0; i < NUMBER_OF_LANDMARKS; i ++){
 		landmarks[i] = randomCoordinate();
 	}
@@ -62,7 +70,7 @@ void draw(){
 	try{ // error handling so processing doesnt hang on me
 		dStart = System.nanoTime(); // used for calculating FPS
 		
-		background(100); // clear the screen
+		background(#B18C40); // clear the screen
 
 		for (Coordinate l : landmarks){ // draw the castles
 			l.draw();
@@ -80,6 +88,7 @@ void draw(){
 			mainVoronoi = calculateVoronoi(); // calculate to voronoi figure
 			lines = getLines();
 		}
+		// image(overlay, 0, 0, width, height);
 		println("FPS: " + 1000000000/(System.nanoTime()-dStart)); // print the FPS	
 	}
 	catch (Exception e) {
