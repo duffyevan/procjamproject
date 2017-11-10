@@ -3,7 +3,7 @@ Check out ProcJam [here](http://www.procjam.com/)
 
 This is a project I'm doing for my "AI For Games" class at WPI. Here's what I plan to do in the order I plan to do it
 
-# #Plan:
+## Plan:
 Make a procedural medieval map generator. 
 1. Place castles around the map
 2. Partition territories off using a Voronoi Diagram
