@@ -1,8 +1,10 @@
-
+import megamu.mesh.*;
 
 int RANDOM_SEED = 123456789;
-int NUMBER_OF_LANDMARKS = 5;
+int NUMBER_OF_LANDMARKS = 100;
 int POINT_DIAMETER = 10;
+
+long dStart = 0;
 
 class Coordinate {
 	int x;
@@ -16,7 +18,7 @@ class Coordinate {
 	}
 
 	float distanceTo(Coordinate other){
-		return sqrt(pow(other.x, 2)+pow(other.y, 2));
+		return sqrt(pow(other.x-x, 2)+pow(other.y-y, 2));
 	}
 
 	String toString(){
@@ -42,23 +44,43 @@ class Line {
 
 
 Coordinate landmarks[] = new Coordinate[NUMBER_OF_LANDMARKS];
+Voronoi mainVoronoi;
+Line lines[];
 
 void setup(){
 	// randomSeed(RANDOM_SEED);
-	size(512, 512);
+	size(1860, 1090);
 	for (int i = 0; i < NUMBER_OF_LANDMARKS; i ++){
 		landmarks[i] = randomCoordinate();
 	}
+	mainVoronoi = calculateVoronoi();
+	lines = getLines();
 }
 
 
 void draw(){
 	try{ // error handling so processing doesnt hang on me
-		background(100);
-		for (Coordinate l : landmarks){
+		dStart = System.nanoTime(); // used for calculating FPS
+		
+		background(100); // clear the screen
+
+		for (Coordinate l : landmarks){ // draw the castles
 			l.draw();
 		}
-		
+		for (Line line : lines){ // draw the border lines
+			line.draw();
+		}
+			
+		if (mousePressed){
+			Coordinate c = findClosestLandmark(new Coordinate(mouseX,mouseY)); // click and drag!
+			c.x = mouseX;
+			c.y = mouseY;	
+
+			// update when clicking and dragging
+			mainVoronoi = calculateVoronoi(); // calculate to voronoi figure
+			lines = getLines();
+		}
+		println("FPS: " + 1000000000/(System.nanoTime()-dStart)); // print the FPS	
 	}
 	catch (Exception e) {
 		e.printStackTrace(); // just quit if theres an unhandled error
@@ -98,4 +120,28 @@ Coordinate findClosestLandmark(Coordinate location){
 		}
 	}
 	return closest;
+}
+
+/**
+ * @brief      Calculates the voronoi figure from all the landmarks.
+ *
+ * @return     The voronoi.
+ */
+Voronoi calculateVoronoi(){
+	float points[][] = new float [NUMBER_OF_LANDMARKS][2];
+
+	for (int i = 0; i < NUMBER_OF_LANDMARKS; i ++){
+		points[i][0] = landmarks[i].x;
+		points[i][1] = landmarks[i].y;
+	}
+	return new Voronoi(points);
+}
+
+Line[] getLines(){
+	float [][] lineCoordValues = mainVoronoi.getEdges();
+	Line ret[] = new Line[lineCoordValues.length];
+	for (int i = 0; i < lineCoordValues.length; i++){
+		ret[i] = new Line(new Coordinate((int)lineCoordValues[i][0],(int)lineCoordValues[i][1]),new Coordinate((int)lineCoordValues[i][2],(int)lineCoordValues[i][3]));
+	}
+	return ret;
 }
