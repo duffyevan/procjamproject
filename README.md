@@ -2,9 +2,9 @@
 
 Check out ProcJam [here](http://www.procjam.com/)
 
-[Here](https://imgur.com/a/dPyX3) is a link to a GIF of the program working as of Sunday!
+[Here](https://imgur.com/a/dPyX3) is a link to a GIF of the program working as of Sunday (Dragging and Editing Still Work Too)!
 
-![alt text](https://i.imgur.com/a/dPyX3.gif "GIF Of It Working")
+![alt text](https://i.imgur.com/m9bxVar.png "GIF Of It Working")
 
 [Here](https://imgur.com/isLEbxt) is a link to a GIF of the program working as of Thursday!
 
