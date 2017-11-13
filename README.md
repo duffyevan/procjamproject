@@ -2,13 +2,17 @@
 
 Check out ProcJam [here](http://www.procjam.com/)
 
+[Here](https://imgur.com/a/dPyX3) is a link to a GIF of the program working as of Sunday!
+
+![alt text](https://i.imgur.com/a/dPyX3.gif "GIF Of It Working")
+
 [Here](https://imgur.com/isLEbxt) is a link to a GIF of the program working as of Thursday!
 
 ![alt text](https://i.imgur.com/isLEbxt.gif "GIF Of It Working")
 
 ---
 
-This is a project I'm doing for my "AI For Games" class at WPI. Here's what I plan to do in the order I plan to do it
+This is a project I'm doing for my "AI For Games" class at WPI. I'm submitting to \#PROCJAM but the project itself is due the following week, so I will continue to work on it untill a week after its submitted. Here's what I plan to do in the order I plan to do it
 
 ## Plan:
 
