@@ -1,5 +1,6 @@
 String firstHalf[] = {
 	"Evans",
+	"Scotts",
 	"Jacksons",
 	"Arling",
 	"Michaels",
