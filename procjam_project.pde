@@ -76,11 +76,6 @@ void setup(){
 	landmarks = new Coordinate[NUMBER_OF_LANDMARKS];
 	
 	font = createFont("Purisa Oblique", 72);
-	println("font: "+font);
-
-	for (String s : PFont.list()){
-		println(s);
-	}	
 
 	regionName = generateName();
 	println("regionName: "+regionName);
