@@ -6,6 +6,14 @@ int RANDOM_SEED = 123456789;
 int NUMBER_OF_LANDMARKS = 60;
 int POINT_DIAMETER = 10;
 
+int RANDOM_POINT_MIN_X = 224;
+int RANDOM_POINT_MAX_X = 877;
+
+int RANDOM_POINT_MIN_Y = 164;
+int RANDOM_POINT_MAX_Y = 670;
+
+int MIN_SEPARATION_DISTANCE = 20;
+
 long dStart = 0;
 
 class Coordinate {
@@ -22,6 +30,7 @@ class Coordinate {
 	}
 
 	float distanceTo(Coordinate other){
+		if (other == null) return Integer.MAX_VALUE;
 		return sqrt(pow(other.x-x, 2)+pow(other.y-y, 2));
 	}
 
@@ -55,9 +64,9 @@ Line lines[];
 void setup(){
 	// randomSeed(RANDOM_SEED);
 	
-	overlay = loadImage("./overlay.png");
+	overlay = loadImage("./scroll.png");
 
-	size(512, 512);
+	size(1105, 834);
 	for (int i = 0; i < NUMBER_OF_LANDMARKS; i ++){
 		landmarks[i] = randomCoordinate();
 	}
@@ -70,7 +79,7 @@ void draw(){
 	try{ // error handling so processing doesn't hang on me
 		dStart = System.nanoTime(); // used for calculating FPS
 		
-		background(#B18C40); // clear the screen
+		background(#fdfedd); // clear the screen
 
 		for (Coordinate l : landmarks){ // draw the castles
 			l.draw();
@@ -78,7 +87,7 @@ void draw(){
 		for (Line line : lines){ // draw the border lines
 			line.draw();
 		}
-			
+		
 		if (mousePressed){
 			Coordinate c = findClosestLandmark(new Coordinate(mouseX,mouseY)); // click and drag!
 			c.x = mouseX;
@@ -88,7 +97,7 @@ void draw(){
 			mainVoronoi = calculateVoronoi(); // calculate to Voronoi figure
 			lines = getLines();
 		}
-		// image(overlay, 0, 0, width, height);
+		image(overlay, 0, 0, width, height);
 		println("FPS: " + 1000000000/(System.nanoTime()-dStart)); // print the FPS	
 	}
 	catch (Exception e) {
@@ -105,7 +114,14 @@ void draw(){
  * @return     The newly created random coordinate
  */
 Coordinate randomCoordinate(){
-	return new Coordinate((int)random(0, width),(int)random(0, height));
+	Coordinate ret;
+	Coordinate closest;
+	do{
+		ret = new Coordinate((int)random(RANDOM_POINT_MIN_X, RANDOM_POINT_MAX_X),(int)random(RANDOM_POINT_MIN_Y, RANDOM_POINT_MAX_Y));
+		closest = findClosestLandmark(ret);
+		if (closest == null) break;
+	} while (closest != null && ret.distanceTo(closest) < MIN_SEPARATION_DISTANCE);
+	return ret;
 }
 
 /**
