@@ -2,6 +2,7 @@ import megamu.mesh.*;
 
 PImage overlay;
 PImage castle;
+PFont font;
 
 int RANDOM_SEED = 123456789;
 int NUMBER_OF_LANDMARKS = 0;
@@ -65,21 +66,34 @@ Line lines[];
 String regionName; 
 
 void setup(){
-	// randomSeed(RANDOM_SEED);
+	// randomSeed(RANDOM_SEED); // used for explicitly chosing a random seed
 	
 	if (NUMBER_OF_LANDMARKS == 0){
 		NUMBER_OF_LANDMARKS = (int)random(10,60);
 		MIN_SEPARATION_DISTANCE = (int)(60.0/NUMBER_OF_LANDMARKS * 20.0);
 	}
+	
 	landmarks = new Coordinate[NUMBER_OF_LANDMARKS];
+	
+	font = createFont("Purisa Oblique", 72);
+	println("font: "+font);
+
+	for (String s : PFont.list()){
+		println(s);
+	}	
+
 	regionName = generateName();
 	println("regionName: "+regionName);
+	
 	overlay = loadImage("scroll.png");
 	castle = loadImage("Castle.png");
+	
 	size(1105, 834);
+	
 	for (int i = 0; i < NUMBER_OF_LANDMARKS; i ++){
 		landmarks[i] = randomCoordinate();
 	}
+	
 	mainVoronoi = calculateVoronoi();
 	lines = getLines();
 }
@@ -108,6 +122,11 @@ void draw(){
 			lines = getLines();
 		}
 		image(overlay, 0, 0, width, height);
+	
+		textFont(font);
+		textAlign(CENTER,CENTER);
+		text(regionName, width/2, 80);
+		
 		println("FPS: " + 1000000000/(System.nanoTime()-dStart)); // print the FPS	
 	}
 	catch (Exception e) {
