@@ -1,10 +1,11 @@
 import megamu.mesh.*;
 
 PImage overlay;
+PImage castle;
 
 int RANDOM_SEED = 123456789;
-int NUMBER_OF_LANDMARKS = 60;
-int POINT_DIAMETER = 10;
+int NUMBER_OF_LANDMARKS = 0;
+
 
 int RANDOM_POINT_MIN_X = 224;
 int RANDOM_POINT_MAX_X = 877;
@@ -12,7 +13,7 @@ int RANDOM_POINT_MAX_X = 877;
 int RANDOM_POINT_MIN_Y = 164;
 int RANDOM_POINT_MAX_Y = 670;
 
-int MIN_SEPARATION_DISTANCE = 20;
+int MIN_SEPARATION_DISTANCE = 40;
 
 long dStart = 0;
 
@@ -26,7 +27,8 @@ class Coordinate {
 	void draw(){
 		fill(#916C20);
 		noStroke();
-		ellipse(x, y,POINT_DIAMETER,POINT_DIAMETER);
+		// ellipse(x, y,POINT_DIAMETER,POINT_DIAMETER);
+		image(castle, x-8, y-8);
 	}
 
 	float distanceTo(Coordinate other){
@@ -57,15 +59,23 @@ class Line {
 }  
 
 
-Coordinate landmarks[] = new Coordinate[NUMBER_OF_LANDMARKS];
+Coordinate landmarks[];
 Voronoi mainVoronoi;
 Line lines[];
+String regionName; 
 
 void setup(){
 	// randomSeed(RANDOM_SEED);
 	
-	overlay = loadImage("./scroll.png");
-
+	if (NUMBER_OF_LANDMARKS == 0){
+		NUMBER_OF_LANDMARKS = (int)random(10,60);
+		MIN_SEPARATION_DISTANCE = (int)(60.0/NUMBER_OF_LANDMARKS * 20.0);
+	}
+	landmarks = new Coordinate[NUMBER_OF_LANDMARKS];
+	regionName = generateName();
+	println("regionName: "+regionName);
+	overlay = loadImage("scroll.png");
+	castle = loadImage("Castle.png");
 	size(1105, 834);
 	for (int i = 0; i < NUMBER_OF_LANDMARKS; i ++){
 		landmarks[i] = randomCoordinate();
@@ -79,7 +89,7 @@ void draw(){
 	try{ // error handling so processing doesn't hang on me
 		dStart = System.nanoTime(); // used for calculating FPS
 		
-		background(#fdfedd); // clear the screen
+		background(#FDF4BE); // clear the screen
 
 		for (Coordinate l : landmarks){ // draw the castles
 			l.draw();
