@@ -1,4 +1,5 @@
+PROCESSING_EXE=~/bin/processing-3.3.6/processing-java
 run:
-	~/bin/processing-3.3.6/processing-java --sketch=../procjamproject/ --run
+	$(PROCESSING_EXE) --sketch=../procjamproject/ --run
 
 

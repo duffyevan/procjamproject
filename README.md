@@ -14,6 +14,7 @@ Check out ProcJam [here](http://www.procjam.com/)
 
 This is a project I'm doing for my "AI For Games" class at WPI. I'm submitting to \#PROCJAM but the project itself is due the following week, so I will continue to work on it untill a week after its submitted. Here's what I plan to do in the order I plan to do it
 
+This code utilized the [mesh](https://github.com/leebyron/mesh) library for processing, you will need to download it to run this code.
 ## Plan:
 
 Make a procedural medieval map generator. 
