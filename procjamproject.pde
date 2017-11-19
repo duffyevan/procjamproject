@@ -4,7 +4,7 @@ PImage overlay;
 PImage castle;
 PFont font;
 
-int RANDOM_SEED = 123456789;
+int RANDOM_SEED = 0;
 int NUMBER_OF_LANDMARKS = 0;
 
 
@@ -28,7 +28,6 @@ class Coordinate {
 	void draw(){
 		fill(#916C20);
 		noStroke();
-		// ellipse(x, y,POINT_DIAMETER,POINT_DIAMETER);
 		image(castle, x-8, y-8);
 	}
 
@@ -67,7 +66,7 @@ String regionName;
 
 void setup(){
 	try{
-		loadJsonConfig();	
+		loadJsonConfig(); // Try to load the JSON, exit on failiure
 	} catch (Exception e){
 		e.printStackTrace();
 		exit();
@@ -84,10 +83,10 @@ void setup(){
 	
 	landmarks = new Coordinate[NUMBER_OF_LANDMARKS];
 	
-	font = createFont("Purisa Oblique", 72);
+	font = createFont("Purisa Oblique", 72); // Use a cool font for the name
 
 	regionName = generateName();
-	println("regionName: "+regionName);
+	println("regionName: "+regionName); // get the randomized name for the region
 	
 	overlay = loadImage("scroll.png");
 	castle = loadImage("Castle.png");
@@ -97,7 +96,7 @@ void setup(){
 	for (int i = 0; i < NUMBER_OF_LANDMARKS; i ++){
 		landmarks[i] = randomCoordinate();
 	}
-	mainVoronoi = calculateVoronoi();
+	mainVoronoi = calculateVoronoi(); // calculates where the lines need to be drawn
 	lines = getLines();
 }
 
@@ -126,11 +125,11 @@ void draw(){
 		}
 		image(overlay, 0, 0, width, height);
 	
-		textFont(font);
-		textAlign(CENTER,CENTER);
-		text(regionName, width/2, 80);
+		textFont(font); // use the cool font
+		textAlign(CENTER,CENTER); 
+		text(regionName, width/2, 80); // put the name on the top of the screen
 		
-		#println("FPS: " + 1000000000/(System.nanoTime()-dStart)); // print the FPS	
+		// println("FPS: " + 1000000000/(System.nanoTime()-dStart)); // print the FPS	
 	}
 	catch (Exception e) {
 		e.printStackTrace(); // just quit if theres an unhanded error
@@ -257,8 +256,7 @@ void loadJsonConfig(){
 	int value = 0; 
 	
 	value = Integer.parseInt(j.getString("RANDOM_SEED"));
-	if (value != 0)
-		RANDOM_SEED = value;
+	RANDOM_SEED = value; // Always read in the seed, the setup funciton will take care of making it random if its just 0
 
 	value = Integer.parseInt(j.getString("NUMBER_OF_LANDMARKS"));
 	if (value != 0)
