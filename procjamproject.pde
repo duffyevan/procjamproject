@@ -67,7 +67,12 @@ String regionName;
 
 void setup(){
 	// randomSeed(RANDOM_SEED); // used for explicitly chosing a random seed
-	
+	try{
+		loadJsonConfig();	
+	} catch (Exception e){
+		e.printStackTrace();
+		exit();
+	}
 	if (NUMBER_OF_LANDMARKS == 0){
 		NUMBER_OF_LANDMARKS = (int)random(10,60);
 		MIN_SEPARATION_DISTANCE = (int)(60.0/NUMBER_OF_LANDMARKS * 20.0);
@@ -219,6 +224,12 @@ Voronoi calculateVoronoi(){
 	return new Voronoi(points);
 }
 
+
+/**
+ * @brief      Gets the lines form the voronoi calculation.
+ *
+ * @return     The lines that make up the Voronio.
+ */
 Line[] getLines(){
 	float [][] lineCoordValues = mainVoronoi.getEdges();
 	Line ret[] = new Line[lineCoordValues.length];
@@ -226,4 +237,47 @@ Line[] getLines(){
 		ret[i] = new Line(new Coordinate((int)lineCoordValues[i][0],(int)lineCoordValues[i][1]),new Coordinate((int)lineCoordValues[i][2],(int)lineCoordValues[i][3]));
 	}
 	return ret;
+}
+
+
+/**
+ * Loads a json configuration.
+ * @brief      Loads a json configuration.
+ */
+void loadJsonConfig(){
+	String params = "";
+	for (String s : loadStrings("params.json")){
+		params = params + s;
+	}
+	JSONObject j = parseJSONObject(params);
+	println("j: "+j);
+	int value = 0; 
+	
+	value = Integer.parseInt(j.getString("RANDOM_SEED"));
+	if (value != 0)
+		RANDOM_SEED = value;
+
+	value = Integer.parseInt(j.getString("NUMBER_OF_LANDMARKS"));
+	if (value != 0)
+		NUMBER_OF_LANDMARKS = value;
+
+	value = Integer.parseInt(j.getString("RANDOM_POINT_MAX_Y"));
+	if (value != 0)
+		RANDOM_POINT_MAX_Y = value;
+
+	value = Integer.parseInt(j.getString("RANDOM_POINT_MIN_Y"));
+	if (value != 0)
+		RANDOM_POINT_MIN_Y = value;
+
+	value = Integer.parseInt(j.getString("RANDOM_POINT_MAX_X"));
+	if (value != 0)
+		RANDOM_POINT_MAX_X = value;
+
+	value = Integer.parseInt(j.getString("RANDOM_POINT_MIN_X"));
+	if (value != 0)
+		RANDOM_POINT_MIN_X = value;
+
+	value = Integer.parseInt(j.getString("MIN_SEPARATION_DISTANCE"));
+	if (value != 0)
+		MIN_SEPARATION_DISTANCE = value;
 }
