@@ -130,7 +130,7 @@ void draw(){
 		textAlign(CENTER,CENTER);
 		text(regionName, width/2, 80);
 		
-		println("FPS: " + 1000000000/(System.nanoTime()-dStart)); // print the FPS	
+		#println("FPS: " + 1000000000/(System.nanoTime()-dStart)); // print the FPS	
 	}
 	catch (Exception e) {
 		e.printStackTrace(); // just quit if theres an unhanded error
