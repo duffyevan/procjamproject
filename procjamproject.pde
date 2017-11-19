@@ -66,13 +66,17 @@ Line lines[];
 String regionName; 
 
 void setup(){
-	// randomSeed(RANDOM_SEED); // used for explicitly chosing a random seed
 	try{
 		loadJsonConfig();	
 	} catch (Exception e){
 		e.printStackTrace();
 		exit();
 	}
+
+	if (RANDOM_SEED != 0){
+		randomSeed(RANDOM_SEED); // used for explicitly chosing a random seed
+	}
+
 	if (NUMBER_OF_LANDMARKS == 0){
 		NUMBER_OF_LANDMARKS = (int)random(10,60);
 		MIN_SEPARATION_DISTANCE = (int)(60.0/NUMBER_OF_LANDMARKS * 20.0);
@@ -93,7 +97,6 @@ void setup(){
 	for (int i = 0; i < NUMBER_OF_LANDMARKS; i ++){
 		landmarks[i] = randomCoordinate();
 	}
-	
 	mainVoronoi = calculateVoronoi();
 	lines = getLines();
 }
